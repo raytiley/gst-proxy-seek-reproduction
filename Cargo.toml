@@ -1,0 +1,13 @@
+[package]
+name = "seek_repo"
+version = "0.1.0"
+authors = ["Ray Tiley <ray.tiley@trms.com>"]
+edition = "2018"
+
+[dependencies]
+glib = "0.7"
+gstreamer-sys = "0.7"
+gstreamer = { version = "0.13", features=["v1_10"] }
+gstreamer-app = "0.13"
+gstreamer-audio = "0.13"
+gstreamer-video = "0.13"
