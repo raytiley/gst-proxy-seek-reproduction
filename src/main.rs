@@ -13,16 +13,16 @@ fn main() {
     let videoconvert = gst::ElementFactory::make("videoconvert", None).unwrap();
     let videorate = gst::ElementFactory::make("videorate", None).unwrap();
     let videoscale = gst::ElementFactory::make("videoscale", None).unwrap();
-    let proxy_sink = gst::ElementFactory::make("proxysink", None).unwrap();
-    let proxy_src = gst::ElementFactory::make("proxysrc", None).unwrap();
-    proxy_src.set_property("proxysink", &proxy_sink).unwrap();
+    let proxy_sink = gst::ElementFactory::make("intervideosink", None).unwrap();
+    let proxy_src = gst::ElementFactory::make("intervideosrc", None).unwrap();
+    //proxy_src.set_property("proxysink", &proxy_sink).unwrap();
     let videosink = gst::ElementFactory::make("autovideosink", None).unwrap();
 
     input_pipeline.add_many(&[&uridecodebin, &videoconvert, &videorate, &videoscale, &proxy_sink]).unwrap();
     gst::Element::link_many(&[&videoconvert, &videorate, &videoscale, &proxy_sink]).unwrap();
     output_pipeline.add_many(&[&proxy_src, &videosink]).unwrap();
     gst::Element::link_many(&[&proxy_src, &videosink]).unwrap();
-    
+
     let videoconvert_weak = videoconvert.downgrade();
     uridecodebin.connect_pad_added(move |_, src_pad| {
         let new_pad_caps = src_pad
